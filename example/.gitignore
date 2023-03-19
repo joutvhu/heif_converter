@@ -4,7 +4,6 @@
 *.pyc
 *.swp
 .DS_Store
-._*
 .atom/
 .buildlog/
 .history
@@ -20,25 +19,18 @@ migrate_working_dir/
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
-.vscode/
-.vs/
+#.vscode/
 
 # Flutter/Dart/Pub related
-# Libraries should not include pubspec.lock, per https://dart.dev/guides/libraries/private-files#pubspeclock.
-/pubspec.lock
 **/doc/api/
-.dart_tool/
-.packages
-build/
 **/ios/Flutter/.last_build_id
+.dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
+.packages
 .pub-cache/
 .pub/
 /build/
-
-# Web related
-lib/generated_plugin_registrant.dart
 
 # Symbolication related
 app.*.symbols
@@ -50,7 +42,3 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-
-# CMake
-*/cmake-build
-*/cmake-build-*
