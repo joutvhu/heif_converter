@@ -23,7 +23,7 @@ abstract class HeifConverterPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<String?> getPlatformVersion() {
-    throw UnimplementedError('platformVersion() has not been implemented.');
+  Future<String?> convert(String path, String output) {
+    throw UnimplementedError('convert(String path, String output) has not been implemented.');
   }
 }
