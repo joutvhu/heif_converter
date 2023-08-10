@@ -9,7 +9,7 @@ class MockHeifConverterPlatform
     implements HeifConverterPlatform {
 
   @override
-  Future<String?> getPlatformVersion() => Future.value('42');
+  Future<String?> convert(String path, String output) => Future.value(output);
 }
 
 void main() {
@@ -19,11 +19,11 @@ void main() {
     expect(initialPlatform, isInstanceOf<MethodChannelHeifConverter>());
   });
 
-  test('getPlatformVersion', () async {
+  test('convert', () async {
     HeifConverter heifConverterPlugin = HeifConverter();
     MockHeifConverterPlatform fakePlatform = MockHeifConverterPlatform();
     HeifConverterPlatform.instance = fakePlatform;
 
-    expect(await heifConverterPlugin.getPlatformVersion(), '42');
+    expect(await heifConverterPlugin.convert('image.heic', 'image.png'), 'image.png');
   });
 }

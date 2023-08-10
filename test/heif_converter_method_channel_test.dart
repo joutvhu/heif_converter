@@ -3,22 +3,25 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:heif_converter/heif_converter_method_channel.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   MethodChannelHeifConverter platform = MethodChannelHeifConverter();
   const MethodChannel channel = MethodChannel('heif_converter');
 
-  TestWidgetsFlutterBinding.ensureInitialized();
-
   setUp(() {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      return '42';
-    });
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+      channel,
+      (MethodCall methodCall) async {
+        return 'image.png';
+      },
+    );
   });
 
   tearDown(() {
-    channel.setMockMethodCallHandler(null);
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(channel, null);
   });
 
-  test('getPlatformVersion', () async {
-    expect(await platform.getPlatformVersion(), '42');
+  test('convert', () async {
+    expect(await platform.convert('image.heic', 'image.png'), 'image.png');
   });
 }
