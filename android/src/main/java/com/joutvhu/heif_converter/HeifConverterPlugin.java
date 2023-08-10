@@ -1,5 +1,6 @@
 package com.joutvhu.heif_converter;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
@@ -8,6 +9,7 @@ import androidx.annotation.NonNull;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.MessageFormat;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.MethodCall;
@@ -22,25 +24,33 @@ public class HeifConverterPlugin implements FlutterPlugin, MethodCallHandler {
   /// This local reference serves to register the plugin with the Flutter Engine and unregister it
   /// when the Flutter Engine is detached from the Activity
   private MethodChannel channel;
+  private Context context = null;
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
     channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "heif_converter");
     channel.setMethodCallHandler(this);
+    context = flutterPluginBinding.getApplicationContext();
   }
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
     if (call.method.equals("convert")) {
-      String path = call.argument("path");
-      String output = call.argument("output");
-      if (!call.hasArgument("path") || path == null || path.isEmpty()) {
+      String path = call.hasArgument("path") ? call.argument("path") : null;
+      String output = call.hasArgument("output") ? call.argument("output") : null;
+      String format = call.hasArgument("format") ? call.argument("format") : null;
+      if (path == null || path.isEmpty()) {
         result.error("illegalArgument", "Input path is null or empty.", null);
         return;
       }
-      if (!call.hasArgument("output") || output == null || output.isEmpty()) {
-        result.error("illegalArgument", "Output path is null or empty.", null);
-        return;
+      if (output == null || output.isEmpty()) {
+        if (format != null && context != null) {
+          output = MessageFormat.format("{0}/{1}.{2}",
+                  context.getCacheDir(), System.currentTimeMillis(), format);
+        } else {
+          result.error("illegalArgument", "Output path is null or empty.", null);
+          return;
+        }
       }
       try {
         output = convert(path, output);

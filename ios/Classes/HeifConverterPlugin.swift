@@ -13,7 +13,19 @@ public class HeifConverterPlugin: NSObject, FlutterPlugin {
     case "convert":
       let input = call.arguments as! Dictionary<String, Any>
       let path = input["path"] as! String
-      let output = input["output"] as! String
+      let output :String?
+      if(!(dic["output"] is NSNull)){
+        output = dic["output"] as! String?
+      }
+      let format :String?
+      if(!(dic["output"] is NSNull)){
+        format = dic["output"] as! String?
+      }
+      if(output == nil || output!.isEmpty){
+        if(format != nil && !format!.isEmpty){
+          output = NSTemporaryDirectory().appendingFormat("%d.%s", Date().timeIntervalSince1970 * 1000, format)
+        }
+      }
       result(convert(path, output))
     default:
       result(FlutterMethodNotImplemented)

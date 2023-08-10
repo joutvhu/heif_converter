@@ -9,7 +9,10 @@ class MockHeifConverterPlatform
     implements HeifConverterPlatform {
 
   @override
-  Future<String?> convert(String path, String output) => Future.value(output);
+  Future<String?> convert(String path, {
+    String? output,
+    String? format,
+  }) => Future.value(output);
 }
 
 void main() {
@@ -24,6 +27,6 @@ void main() {
     MockHeifConverterPlatform fakePlatform = MockHeifConverterPlatform();
     HeifConverterPlatform.instance = fakePlatform;
 
-    expect(await heifConverterPlugin.convert('image.heic', 'image.png'), 'image.png');
+    expect(await heifConverterPlugin.convert('image.heic', output: 'image.png'), 'image.png');
   });
 }

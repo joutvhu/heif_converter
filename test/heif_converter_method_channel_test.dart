@@ -22,6 +22,6 @@ void main() {
   });
 
   test('convert', () async {
-    expect(await platform.convert('image.heic', 'image.png'), 'image.png');
+    expect(await platform.convert('image.heic', output: 'image.png'), 'image.png');
   });
 }

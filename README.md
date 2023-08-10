@@ -1,15 +1,26 @@
-# heif_converter
+# HEIF Converter
 
-A new Flutter project.
+Flutter plugin to convert HEIC/HEIF file to PNG/JPEG image.
 
-## Getting Started
+## Installation
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+Add the Package
 
-For help getting started with Flutter development, view the
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```yaml
+dependencies:
+  heif_converter: ^lastVersion
+```
 
+## How to use
+
+Import the package in your dart file
+
+```dart
+import 'package:heif_converter/heif_converter.dart';
+```
+
+And call convert method with local HEIC/HEIF image file path.
+
+```dart
+String pngOrJpgPath = await HeifConverter.convert(heicPath, output: pngOrJpgPath);
+```
