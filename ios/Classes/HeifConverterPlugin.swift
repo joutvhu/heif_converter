@@ -9,11 +9,14 @@ public class HeifConverterPlugin: NSObject, FlutterPlugin {
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-    if(call.method == "convert") {
+    switch call.method {
+    case "convert":
       let input = call.arguments as! Dictionary<String, Any>
       let path = input["path"] as! String
       let output = input["output"] as! String
       result(convert(path, output))
+    default:
+      result(FlutterMethodNotImplemented)
     }
   }
 

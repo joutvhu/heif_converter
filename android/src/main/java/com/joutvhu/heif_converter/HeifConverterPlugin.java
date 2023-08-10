@@ -35,18 +35,18 @@ public class HeifConverterPlugin implements FlutterPlugin, MethodCallHandler {
       String path = call.argument("path");
       String output = call.argument("output");
       if (!call.hasArgument("path") || path == null || path.isEmpty()) {
-        result.error("404", "Input path is null or empty.", null);
+        result.error("illegalArgument", "Input path is null or empty.", null);
         return;
       }
       if (!call.hasArgument("output") || output == null || output.isEmpty()) {
-        result.error("404", "Output path is null or empty.", null);
+        result.error("illegalArgument", "Output path is null or empty.", null);
         return;
       }
       try {
         output = convert(path, output);
         result.success(output);
       } catch (Exception e) {
-        result.error("500", e.getMessage(), e);
+        result.error("conversionFailed", e.getMessage(), e);
       }
     } else {
       result.notImplemented();
