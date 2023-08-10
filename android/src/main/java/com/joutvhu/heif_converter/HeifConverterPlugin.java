@@ -1,4 +1,4 @@
-package com.example.heif_converter;
+package com.joutvhu.heif_converter;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -32,21 +32,21 @@ public class HeifConverterPlugin implements FlutterPlugin, MethodCallHandler {
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
     if (call.method.equals("convert")) {
-      if (!call.hasArgument("path") || call.argument<String>("path").isNullOrEmpty()) {
-        result.error("Input path is null or empty.");
+      String path = call.argument("path");
+      String output = call.argument("output");
+      if (!call.hasArgument("path") || path == null || path.isEmpty()) {
+        result.error("404", "Input path is null or empty.", null);
         return;
       }
-      if (!call.hasArgument("output") || call.argument<String>("output").isNullOrEmpty()) {
-        result.error("Output path is null or empty.");
+      if (!call.hasArgument("output") || output == null || output.isEmpty()) {
+        result.error("404", "Output path is null or empty.", null);
         return;
       }
-      String path = call.argument<String>("path");
-      String output = call.argument<String>("output");
       try {
         output = convert(path, output);
         result.success(output);
       } catch (Exception e) {
-        result.error(e.getMessage());
+        result.error("500", e.getMessage(), e);
       }
     } else {
       result.notImplemented();

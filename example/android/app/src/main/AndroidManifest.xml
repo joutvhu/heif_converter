@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.heif_converter_example">
+    package="com.joutvhu.heif_converter_example">
    <application
         android:label="heif_converter_example"
         android:name="${applicationName}"

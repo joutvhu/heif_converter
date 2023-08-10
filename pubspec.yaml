@@ -4,13 +4,13 @@ version: 0.0.1
 homepage:
 
 environment:
-  sdk: '>=2.19.4 <3.0.0'
+  sdk: '>=2.19.4 <4.0.0'
   flutter: ">=2.5.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  plugin_platform_interface: ^2.0.2
+  plugin_platform_interface: ^2.1.5
 
 dev_dependencies:
   flutter_test:
@@ -35,7 +35,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.example.heif_converter
+        package: com.joutvhu.heif_converter
         pluginClass: HeifConverterPlugin
       ios:
         pluginClass: HeifConverterPlugin
