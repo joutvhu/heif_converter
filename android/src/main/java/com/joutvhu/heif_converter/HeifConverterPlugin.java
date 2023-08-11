@@ -48,7 +48,7 @@ public class HeifConverterPlugin implements FlutterPlugin, MethodCallHandler {
           output = MessageFormat.format("{0}/{1}.{2}",
                   context.getCacheDir(), System.currentTimeMillis(), format);
         } else {
-          result.error("illegalArgument", "Output path is null or empty.", null);
+          result.error("illegalArgument", "Output path and format is null or empty.", null);
           return;
         }
       }

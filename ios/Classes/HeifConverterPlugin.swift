@@ -13,20 +13,23 @@ public class HeifConverterPlugin: NSObject, FlutterPlugin {
     case "convert":
       let input = call.arguments as! Dictionary<String, Any>
       let path = input["path"] as! String
-      let output :String?
-      if(!(dic["output"] is NSNull)){
-        output = dic["output"] as! String?
+      var output :String?
+      if(!(input["output"] is NSNull)){
+        output = input["output"] as! String?
       }
-      let format :String?
-      if(!(dic["output"] is NSNull)){
-        format = dic["output"] as! String?
+      var format :String?
+      if(!(input["format"] is NSNull)){
+        format = input["format"] as! String?
       }
       if(output == nil || output!.isEmpty){
         if(format != nil && !format!.isEmpty){
-          output = NSTemporaryDirectory().appendingFormat("%d.%s", Date().timeIntervalSince1970 * 1000, format)
+          output = NSTemporaryDirectory().appendingFormat("%d.%s", Date().timeIntervalSince1970 * 1000, format!)
+        } else {
+          result(FlutterError(code: "illegalArgument", message: "Output path and format is null or empty.", details: nil))
+          break
         }
       }
-      result(convert(path, output))
+      result(convert(path: path, output: output!))
     default:
       result(FlutterMethodNotImplemented)
     }
