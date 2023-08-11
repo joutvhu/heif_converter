@@ -14,6 +14,9 @@ class MethodChannelHeifConverter extends HeifConverterPlatform {
     String? output,
     String? format,
   }) async {
+    if (output == null && format == null) {
+      throw ArgumentError('Please provide output path or format for conversion.','output');
+    }
     final result = await methodChannel
         .invokeMethod<String>('convert', {'path': path, 'output': output, 'format': format});
     return result;

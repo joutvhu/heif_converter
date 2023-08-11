@@ -19,7 +19,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final httpClient = HttpClient();
-  final _heifConverterPlugin = HeifConverter();
   String heicUrl = 'https://filesamples.com/samples/image/heic/sample1.heic';
   String? output;
 
@@ -61,7 +60,7 @@ class _MyAppState extends State<MyApp> {
 
   Future<String?> downloadAndConvert() async {
     File heicFile = await _downloadFile(heicUrl, 'sample.heic');
-    return _heifConverterPlugin.convert(heicFile.path, format: 'png');
+    return HeifConverter.convert(heicFile.path, format: 'png');
   }
 
   Future<File> _downloadFile(String url, String filename) async {

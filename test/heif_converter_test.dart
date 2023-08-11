@@ -23,10 +23,9 @@ void main() {
   });
 
   test('convert', () async {
-    HeifConverter heifConverterPlugin = HeifConverter();
     MockHeifConverterPlatform fakePlatform = MockHeifConverterPlatform();
     HeifConverterPlatform.instance = fakePlatform;
 
-    expect(await heifConverterPlugin.convert('image.heic', output: 'image.png'), 'image.png');
+    expect(await HeifConverter.convert('image.heic', output: 'image.png'), 'image.png');
   });
 }
