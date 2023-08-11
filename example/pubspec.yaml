@@ -16,6 +16,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  path_provider: ^2.1.0
+  future_progress_dialog: ^0.2.1
 
   heif_converter:
     # When depending on this package from a real application you should use:

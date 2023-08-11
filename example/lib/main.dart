@@ -1,8 +1,11 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
+import 'dart:io';
 
-import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:heif_converter/heif_converter.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,8 +19,10 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
+  final httpClient = HttpClient();
   final _heifConverterPlugin = HeifConverter();
+  String heicUrl = 'https://filesamples.com/samples/image/heic/sample1.heic';
+  String? output;
 
   @override
   void initState() {
@@ -27,15 +32,7 @@ class _MyAppState extends State<MyApp> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
-    try {
-      platformVersion =
-          await _heifConverterPlugin.getPlatformVersion() ?? 'Unknown platform version';
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
+    String? tmp = await downloadAndConvert();
 
     // If the widget was removed from the tree while the asynchronous platform
     // message was in flight, we want to discard the reply rather than calling
@@ -43,7 +40,7 @@ class _MyAppState extends State<MyApp> {
     if (!mounted) return;
 
     setState(() {
-      _platformVersion = platformVersion;
+      output = tmp;
     });
   }
 
@@ -55,9 +52,26 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+          child: (output != null && output!.isNotEmpty)
+              ? Image.file(File(output!))
+              : const Text('No Image'),
         ),
       ),
     );
+  }
+
+  Future<String?> downloadAndConvert() async {
+    File heicFile = await _downloadFile(heicUrl, 'sample.heic');
+    return _heifConverterPlugin.convert(heicFile.path, format: 'jpg');
+  }
+
+  Future<File> _downloadFile(String url, String filename) async {
+    var request = await httpClient.getUrl(Uri.parse(url));
+    var response = await request.close();
+    var bytes = await consolidateHttpClientResponseBytes(response);
+    String dir = (await getTemporaryDirectory()).path;
+    File file = File('$dir/$filename');
+    await file.writeAsBytes(bytes);
+    return file;
   }
 }
