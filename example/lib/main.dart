@@ -61,7 +61,7 @@ class _MyAppState extends State<MyApp> {
 
   Future<String?> downloadAndConvert() async {
     File heicFile = await _downloadFile(heicUrl, 'sample.heic');
-    return _heifConverterPlugin.convert(heicFile.path, format: 'jpg');
+    return _heifConverterPlugin.convert(heicFile.path, format: 'png');
   }
 
   Future<File> _downloadFile(String url, String filename) async {

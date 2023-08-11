@@ -13,11 +13,11 @@ public class HeifConverterPlugin: NSObject, FlutterPlugin {
     case "convert":
       let input = call.arguments as! Dictionary<String, Any>
       let path = input["path"] as! String
-      var output :String?
+      var output: String?
       if(!(input["output"] is NSNull)){
         output = input["output"] as! String?
       }
-      var format :String?
+      var format: String?
       if(!(input["format"] is NSNull)){
         format = input["format"] as! String?
       }
@@ -36,11 +36,16 @@ public class HeifConverterPlugin: NSObject, FlutterPlugin {
   }
 
   func convert(path: String, output: String) -> String? {
-      let image : UIImage? = UIImage(named: path)
+      let image: UIImage? = UIImage(named: path)
       if image == nil {
         return nil
       }
-      let imageData = image!.jpegData(compressionQuality: 1.0)
+      var imageData: Data?
+      if (output.hasSuffix(".jpg") || output.hasSuffix(".jpeg")) {
+        imageData = image!.jpegData(compressionQuality: 1.0)
+      } else {
+        imageData = image!.pngData()
+      }
       FileManager.default.createFile(atPath: output, contents: imageData, attributes: nil)
       return output
   }
