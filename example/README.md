@@ -1,4 +1,4 @@
-# heif_converter_example
+# HEIF Converter Example
 
 Demonstrates how to use the heif_converter plugin.
 
