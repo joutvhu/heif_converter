@@ -40,7 +40,7 @@ public class HeifConverterPlugin implements FlutterPlugin, MethodCallHandler {
       String output = call.hasArgument("output") ? call.argument("output") : null;
       String format = call.hasArgument("format") ? call.argument("format") : null;
       if (path == null || path.isEmpty()) {
-        result.error("illegalArgument", "Input path is null or empty.", null);
+        result.error("illegalArgument", "Input path is blank.", null);
         return;
       }
       if (output == null || output.isEmpty()) {
@@ -48,7 +48,7 @@ public class HeifConverterPlugin implements FlutterPlugin, MethodCallHandler {
           output = MessageFormat.format("{0}/{1}.{2}",
                   context.getCacheDir(), System.currentTimeMillis(), format);
         } else {
-          result.error("illegalArgument", "Output path and format is null or empty.", null);
+          result.error("illegalArgument", "Output path and format is blank.", null);
           return;
         }
       }

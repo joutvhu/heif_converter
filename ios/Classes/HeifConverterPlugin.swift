@@ -25,7 +25,7 @@ public class HeifConverterPlugin: NSObject, FlutterPlugin {
         if(format != nil && !format!.isEmpty){
           output = NSTemporaryDirectory().appendingFormat("%d.%s", Date().timeIntervalSince1970 * 1000, format!)
         } else {
-          result(FlutterError(code: "illegalArgument", message: "Output path and format is null or empty.", details: nil))
+          result(FlutterError(code: "illegalArgument", message: "Output path and format is blank.", details: nil))
           break
         }
       }
