@@ -23,7 +23,7 @@ apply plugin: 'com.android.library'
 
 android {
     namespace 'com.joutvhu.heif_converter'
-    
+
     compileSdkVersion 31
 
     compileOptions {
