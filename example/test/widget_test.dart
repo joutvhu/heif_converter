@@ -1,27 +1,97 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:heif_converter_example/main.dart';
 
 void main() {
-  testWidgets('Verify Platform version', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  const MethodChannel channel = MethodChannel('heif_converter');
+
+  setUp(() {
+    // Mock asset loading for sample files
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMessageHandler('flutter/assets', null);
+
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(channel, (MethodCall call) async {
+      if (call.method == 'convert') {
+        final args = call.arguments as Map;
+        final output = args['output'] as String?;
+        final format = args['format'] as String?;
+        if (output != null) return output;
+        if (format != null) return '/tmp/converted.$format';
+      }
+      return null;
+    });
+  });
+
+  tearDown(() {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(channel, null);
+  });
+
+  testWidgets('renders sample dropdown and format selector', (tester) async {
     await tester.pumpWidget(const MyApp());
 
-    // Verify that platform version is retrieved.
-    expect(
-      find.byWidgetPredicate(
-        (Widget widget) => widget is Text &&
-                           widget.data!.startsWith('Running on:'),
-      ),
-      findsOneWidget,
+    expect(find.byType(DropdownButtonFormField<String>), findsOneWidget);
+    expect(find.text('PNG'), findsOneWidget);
+    expect(find.text('JPEG'), findsOneWidget);
+    expect(find.text('Convert'), findsOneWidget);
+  });
+
+  testWidgets('shows idle message on start', (tester) async {
+    await tester.pumpWidget(const MyApp());
+
+    expect(find.text('Select a sample file and tap Convert.'), findsOneWidget);
+  });
+
+  testWidgets('first sample is selected by default', (tester) async {
+    await tester.pumpWidget(const MyApp());
+
+    expect(find.text('sample1.heic'), findsOneWidget);
+  });
+
+  testWidgets('PNG is selected by default', (tester) async {
+    await tester.pumpWidget(const MyApp());
+
+    final button = tester.widget<SegmentedButton<String>>(
+      find.byType(SegmentedButton<String>),
     );
+    expect(button.selected, {'png'});
+  });
+
+  testWidgets('can switch to JPEG format', (tester) async {
+    await tester.pumpWidget(const MyApp());
+
+    await tester.tap(find.text('JPEG'));
+    await tester.pump();
+
+    final button = tester.widget<SegmentedButton<String>>(
+      find.byType(SegmentedButton<String>),
+    );
+    expect(button.selected, {'jpg'});
+  });
+
+  testWidgets('shows loading indicator while converting', (tester) async {
+    await tester.pumpWidget(const MyApp());
+
+    await tester.tap(find.text('Convert'));
+    await tester.pump();
+
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    expect(find.text('Converting…'), findsOneWidget);
+  });
+
+  testWidgets('convert button is disabled while loading', (tester) async {
+    await tester.pumpWidget(const MyApp());
+
+    await tester.tap(find.text('Convert'));
+    await tester.pump();
+
+    final button = tester.widget<FilledButton>(
+      find.widgetWithText(FilledButton, 'Convert'),
+    );
+    expect(button.onPressed, isNull);
   });
 }
