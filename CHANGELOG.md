@@ -1,11 +1,3 @@
-## 1.0.0
-
-* Initial release.
-
-## 1.0.1
-
-* Add android namespace
-
 ## 1.0.2
 
 * Fix crash on iOS caused by incorrect output path format string (`%d.%s` → `%d.%@`)
@@ -25,3 +17,11 @@
 * Update Flutter SDK constraint to `>=3.0.0`
 * Fix podspec description placeholder text
 * Bump `flutter_lints` to 5.0.0
+
+## 1.0.1
+
+* Add android namespace
+
+## 1.0.0
+
+* Initial release.
