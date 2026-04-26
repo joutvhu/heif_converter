@@ -56,6 +56,11 @@ public class HeifConverterPlugin: NSObject, FlutterPlugin {
     guard let data = imageData else {
       return nil
     }
+    let outputURL = URL(fileURLWithPath: output)
+    let parentURL = outputURL.deletingLastPathComponent()
+    if !FileManager.default.fileExists(atPath: parentURL.path) {
+      try? FileManager.default.createDirectory(at: parentURL, withIntermediateDirectories: true)
+    }
     FileManager.default.createFile(atPath: output, contents: data, attributes: nil)
     return output
   }

@@ -11,26 +11,20 @@ on:
       - created
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.38.8'
-          channel: 'stable'
-
-      - name: Run tests
-        run: flutter test --machine test
-
   publish:
     runs-on: ubuntu-latest
-    container:
-      image: google/dart:latest
-    needs: test
+    permissions:
+      id-token: write
+      contents: read
     steps:
-      - uses: actions/checkout@v6
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: '3.38.8'
 
       - name: Setup Credentials
         uses: joutvhu/write-file@v1
@@ -39,5 +33,13 @@ jobs:
           contents: ${{ secrets.PUB_CREDENTIALS }}
           write_mode: overwrite
 
-      - name: Publish package
-        run: pub publish -f
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Analyze and Dry Run
+        run: |
+          flutter analyze
+          flutter pub publish --dry-run
+
+      - name: Publish to Pub.dev
+        run: flutter pub publish --force

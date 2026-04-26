@@ -8,7 +8,7 @@ issue_tracker: https://github.com/joutvhu/heif_converter/issues
 
 environment:
   sdk: ">=2.19.4 <4.0.0"
-  flutter: ">=2.5.0"
+  flutter: ">=3.0.0"
 
 # Dart Scripts Runner plugin https://github.com/joutvhu/dart-scripts
 scripts:
