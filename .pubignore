@@ -1,0 +1,10 @@
+test/
+example/
+build/
+coverage/
+.dart_tool/
+.idea/
+.vscode/
+.github/
+.pub/
+.pubspec.lock
