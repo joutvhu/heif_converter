@@ -1,7 +1,6 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
+# Publishes the package to pub.dev when a GitHub release is created.
+# Uses OIDC-based publishing — no credentials secret required.
+# Setup: https://dart.dev/tools/pub/automated-publishing#github-actions
 
 name: Publish package to pub.dev
 
@@ -11,35 +10,38 @@ on:
       - created
 
 jobs:
-  publish:
+  test:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
+      - uses: actions/checkout@v4
 
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.38.8'
-
-      - name: Setup Credentials
-        uses: joutvhu/write-file@v1
-        with:
-          path: ~/.pub-cache/credentials.json
-          contents: ${{ secrets.PUB_CREDENTIALS }}
-          write_mode: overwrite
 
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Analyze and Dry Run
-        run: |
-          flutter analyze
-          flutter pub publish --dry-run
+      - name: Analyze
+        run: flutter analyze
 
-      - name: Publish to Pub.dev
+      - name: Run tests
+        run: flutter test
+
+  publish:
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Publish to pub.dev
         run: flutter pub publish --force
