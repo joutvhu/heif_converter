@@ -23,7 +23,7 @@ public class HeifConverterPlugin: NSObject, FlutterPlugin {
       }
       if(output == nil || output!.isEmpty){
         if(format != nil && !format!.isEmpty){
-          output = NSTemporaryDirectory().appendingFormat("%lf%@", Date().timeIntervalSince1970 * 1000, format!)
+          output = NSTemporaryDirectory().appendingFormat("%d.%@", Int(Date().timeIntervalSince1970 * 1000), format!)
         } else {
           result(FlutterError(code: "illegalArgument", message: "Output path and format is blank.", details: nil))
           break
@@ -36,7 +36,7 @@ public class HeifConverterPlugin: NSObject, FlutterPlugin {
   }
 
   func convert(path: String, output: String) -> String? {
-      let image: UIImage? = UIImage(named: path)
+      let image: UIImage? = UIImage(contentsOfFile: path)
       if image == nil {
         return nil
       }

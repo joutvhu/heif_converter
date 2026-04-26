@@ -65,10 +65,15 @@ public class HeifConverterPlugin implements FlutterPlugin, MethodCallHandler {
 
   private String convert(String path, String output) throws IOException {
     Bitmap bitmap = BitmapFactory.decodeFile(path);
+    if (bitmap == null) {
+      throw new IOException("Failed to decode image: " + path);
+    }
     File file = new File(output);
     file.createNewFile();
     Bitmap.CompressFormat format = getFormat(output);
-    bitmap.compress(format, 100, new FileOutputStream(file));
+    try (FileOutputStream fos = new FileOutputStream(file)) {
+      bitmap.compress(format, 100, fos);
+    }
     return file.getPath();
   }
 

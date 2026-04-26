@@ -23,10 +23,11 @@ abstract class HeifConverterPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<String?> convert(String path, {
+  Future<String?> convert(
+    String path, {
     String? output,
     String? format,
   }) {
-    throw UnimplementedError('convert(String path, String output) has not been implemented.');
+    throw UnimplementedError('convert() has not been implemented.');
   }
 }
