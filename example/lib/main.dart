@@ -98,7 +98,7 @@ class _ConvertPageState extends State<ConvertPage> {
           children: [
             // Sample file picker
             DropdownButtonFormField<String>(
-              value: _selectedSample,
+              initialValue: _selectedSample,
               decoration: const InputDecoration(
                 labelText: 'Sample file',
                 border: OutlineInputBorder(),

@@ -11,42 +11,52 @@ public class HeifConverterPlugin: NSObject, FlutterPlugin {
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     switch call.method {
     case "convert":
-      let input = call.arguments as! Dictionary<String, Any>
-      let path = input["path"] as! String
+      guard let input = call.arguments as? Dictionary<String, Any>,
+            let path = input["path"] as? String else {
+        result(FlutterError(code: "illegalArgument", message: "Invalid arguments.", details: nil))
+        return
+      }
       var output: String?
-      if(!(input["output"] is NSNull)){
-        output = input["output"] as! String?
+      if let o = input["output"] as? String, !o.isEmpty {
+        output = o
       }
       var format: String?
-      if(!(input["format"] is NSNull)){
-        format = input["format"] as! String?
+      if let f = input["format"] as? String, !f.isEmpty {
+        format = f
       }
-      if(output == nil || output!.isEmpty){
-        if(format != nil && !format!.isEmpty){
-          output = NSTemporaryDirectory().appendingFormat("%d.%@", Int(Date().timeIntervalSince1970 * 1000), format!)
+      if output == nil {
+        if let fmt = format {
+          output = NSTemporaryDirectory().appendingFormat("%d.%@", Int(Date().timeIntervalSince1970 * 1000), fmt)
         } else {
           result(FlutterError(code: "illegalArgument", message: "Output path and format is blank.", details: nil))
-          break
+          return
         }
       }
-      result(convert(path: path, output: output!))
+      let converted = convert(path: path, output: output!)
+      if converted == nil {
+        result(FlutterError(code: "conversionFailed", message: "Failed to convert image: \(path)", details: nil))
+      } else {
+        result(converted)
+      }
     default:
       result(FlutterMethodNotImplemented)
     }
   }
 
   func convert(path: String, output: String) -> String? {
-      let image: UIImage? = UIImage(contentsOfFile: path)
-      if image == nil {
-        return nil
-      }
-      var imageData: Data?
-      if (output.hasSuffix(".jpg") || output.hasSuffix(".jpeg")) {
-        imageData = image!.jpegData(compressionQuality: 1.0)
-      } else {
-        imageData = image!.pngData()
-      }
-      FileManager.default.createFile(atPath: output, contents: imageData, attributes: nil)
-      return output
+    guard let image = UIImage(contentsOfFile: path) else {
+      return nil
+    }
+    let imageData: Data?
+    if output.hasSuffix(".jpg") || output.hasSuffix(".jpeg") {
+      imageData = image.jpegData(compressionQuality: 1.0)
+    } else {
+      imageData = image.pngData()
+    }
+    guard let data = imageData else {
+      return nil
+    }
+    FileManager.default.createFile(atPath: output, contents: data, attributes: nil)
+    return output
   }
 }

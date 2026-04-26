@@ -14,11 +14,11 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.10.6'
+          flutter-version: '3.38.8'
           channel: 'stable'
 
       - name: Run tests
@@ -30,7 +30,7 @@ jobs:
       image: google/dart:latest
     needs: test
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
 
       - name: Setup Credentials
         uses: joutvhu/write-file@v1
