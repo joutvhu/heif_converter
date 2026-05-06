@@ -2,26 +2,20 @@ PODS:
   - Flutter (1.0.0)
   - heif_converter (1.0.2):
     - Flutter
-  - integration_test (0.0.1):
-    - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - heif_converter (from `.symlinks/plugins/heif_converter/ios`)
-  - integration_test (from `.symlinks/plugins/integration_test/ios`)
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
   heif_converter:
     :path: ".symlinks/plugins/heif_converter/ios"
-  integration_test:
-    :path: ".symlinks/plugins/integration_test/ios"
 
 SPEC CHECKSUMS:
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
-  heif_converter: 5087f3c01bcc9c38b24084cd3700cc6064274672
-  integration_test: 4a889634ef21a45d28d50d622cf412dc6d9f586e
+  heif_converter: 2b5648bd21951e98347eaa457418b9adfc1f19e9
 
 PODFILE CHECKSUM: 4f1c12611da7338d21589c0b2ecd6bd20b109694
 
