@@ -1,3 +1,7 @@
+## [Unreleased]
+
+* Add Swift Package Manager (SPM) support for iOS alongside the existing CocoaPods integration
+
 ## 1.0.2
 
 * Fix crash on iOS caused by incorrect output path format string (`%d.%s` → `%d.%@`)
