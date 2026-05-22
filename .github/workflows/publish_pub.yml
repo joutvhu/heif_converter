@@ -42,6 +42,13 @@ jobs:
         with:
           channel: 'stable'
 
+      - name: Setup Credentials
+        uses: joutvhu/write-file@v1
+        with:
+          path: ~/.config/dart/pub-credentials.json
+          contents: ${{ secrets.PUB_CREDENTIALS }}
+          write_mode: overwrite
+
       - name: Install dependencies
         run: flutter pub get
 
