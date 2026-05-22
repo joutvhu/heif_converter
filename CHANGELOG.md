@@ -1,4 +1,6 @@
-## [Unreleased]
+## 1.0.4
+
+* Move `Package.swift` and `Sources/` into `ios/heif_converter/` to support Flutter SPM tooling.
 
 ## 1.0.3
 

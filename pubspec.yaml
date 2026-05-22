@@ -1,6 +1,6 @@
 name: heif_converter
 description: Flutter plugin to convert HEIC/HEIF file to PNG/JPEG image.
-version: 1.0.3
+version: 1.0.4
 
 homepage: https://github.com/joutvhu/heif_converter
 repository: https://github.com/joutvhu/heif_converter.git
