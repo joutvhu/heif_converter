@@ -54,3 +54,6 @@ app.*.map.json
 # CMake
 */cmake-build
 */cmake-build-*
+
+# Swift Package Manager
+ios/.build/

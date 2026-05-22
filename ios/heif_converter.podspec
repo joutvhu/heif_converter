@@ -13,7 +13,7 @@ Flutter plugin to convert HEIC/HEIF image files to PNG or JPEG format on Android
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'joutvhu (Giao Ho)' => 'joutvhu@gmail.com' }
   s.source           = { :path => '.' }
-  s.source_files = 'Classes/**/*'
+  s.source_files = 'Sources/**/*'
   s.dependency 'Flutter'
   s.platform = :ios, '11.0'
 
