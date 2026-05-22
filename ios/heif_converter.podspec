@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'heif_converter'
-  s.version          = '1.0.2'
+  s.version          = '1.0.3'
   s.summary          = 'Flutter plugin to convert HEIC/HEIF file to PNG/JPEG image.'
   s.description      = <<-DESC
 Flutter plugin to convert HEIC/HEIF image files to PNG or JPEG format on Android and iOS.

@@ -22,7 +22,7 @@ Add the package to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  heif_converter: ^1.0.2
+  heif_converter: ^1.0.3
 ```
 
 Then run:
