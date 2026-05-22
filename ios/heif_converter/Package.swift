@@ -7,7 +7,7 @@ let package = Package(
         .iOS("12.0"),
     ],
     products: [
-        .library(name: "heif_converter", targets: ["heif_converter"]),
+        .library(name: "heif-converter", targets: ["heif_converter"]),
     ],
     dependencies: [],
     targets: [
