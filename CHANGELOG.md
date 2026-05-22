@@ -1,6 +1,7 @@
 ## [Unreleased]
 
 * Add Swift Package Manager (SPM) support for iOS alongside the existing CocoaPods integration
+* Bump minimum iOS deployment target to 12.0
 
 ## 1.0.2
 
