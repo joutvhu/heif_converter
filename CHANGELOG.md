@@ -1,3 +1,7 @@
+## 1.0.5
+
+* Fix Flutter SPM compatibility by using kebab-case product name in `Package.swift`.
+
 ## 1.0.4
 
 * Move `Package.swift` and `Sources/` into `ios/heif_converter/` to support Flutter SPM tooling.
