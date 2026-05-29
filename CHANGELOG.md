@@ -1,3 +1,7 @@
+## 1.0.6
+
+* Fix `Module 'heif_converter' not found` error on iOS by correcting `s.source_files` path in podspec.
+
 ## 1.0.5
 
 * Fix Flutter SPM compatibility by using kebab-case product name in `Package.swift`.
